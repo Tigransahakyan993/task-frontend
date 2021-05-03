@@ -1,24 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {history} from './halpers/history';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  } from "react-router-dom";
+import './style.css';
+import Header from "./containers/headerContainer";
+import HomeComponent from "./containers/homeContainer";
+import LoginComponent from './containers/logInContainer';
+import RegistrationComponent from './containers/registrationContainer';
+import Footer from "./components/FooterComponent/FooterComponent";
+import CartComponent from "./containers/cartContainer";
+import RestaurantsComponent from "./containers/restaurantContainer";
+import RestaurantComponent from "./components/Restaurant/RestaurantComponent/RestaurantComponent";
+import ProductItemComponent from "./containers/productItemContainer";
+import RegistrationConfirmPage from "./components/UiComponents/RegistrationComfirmPage";
+import './setup';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router history={history}>
+      <Header />
+      <Switch>
+        <Route exact path='/' component={HomeComponent}/>
+        <Route path='/login' component={LoginComponent}/>
+        <Route path='/registration' component={RegistrationComponent}/>
+        <Route path='/restaurants' component={RestaurantsComponent}/>
+        <Route path='/products/:id' component={ProductItemComponent}/>
+        <Route path='/restaurants/:id' component={RestaurantComponent}/>
+        <Route path='/cart' component={CartComponent}/>
+        <Route path='/registration-success' component={RegistrationConfirmPage}/>
+      </Switch>
+      <Footer/>
+    </Router>
   );
 }
 

@@ -1,26 +1,37 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {withRouter} from 'react-router-dom'
-import {Container} from "reactstrap";
-import RestaurantHeaderComponent from './RestaurantHeaderComponent'
-import RestaurantBodyComponent from "./RestaurantBodyComponent";
+import {Container, Row, Col} from "reactstrap";
+import Loader from "../../UiComponents/Loader";
+import ImageComponent from "../../ImageComponent/ImageComponent";
+
 function RestaurantComponent(props) {
 
-  useEffect(() => {
-    const restaurantId = props.match.params.id;
-    // Todo: fetchRestaurant(restaurantId)
+  // useEffect(() => {
+  //   const restaurantId = props.user.restaurant.id;
+  //   props.fetchRestaurantData(restaurantId);
+  // },[props.match.params.id])
 
-  },[])
+  const renderRestaurantHeader = () => {
+    return (
+      <div className='d-flex flex-row'>
+        <div>
+          <ImageComponent
+            src='https://media-cdn.tripadvisor.com/media/photo-s/1a/18/3a/cb/restaurant-le-47.jpg'
+            height='55px'
+            width='auto'
+          />
+        </div>
+        <div className=''>
+          <h5>Restaurant</h5>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    props.data &&
       <Container className='bg-light'>
-        <RestaurantHeaderComponent
-          name={props.data.name}
-          description={props.data.description}
-        />
-        <RestaurantBodyComponent
-        menu={props.data.menu}
-        />
+        {renderRestaurantHeader()}
+
       </Container>
   )
 }

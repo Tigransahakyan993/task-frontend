@@ -1,25 +1,48 @@
-import React from 'react';
-import {Card, CardText, Button, CardBody, CardTitle} from "reactstrap";
-import ImageComponent from '../ImageComponent/ImageComponent'
+import React, {useEffect} from 'react';
+import { Container } from "reactstrap";
+import { Table } from 'reactstrap';
+import CartItemComponent from './CartItemComponent';
 import {withRouter} from "react-router-dom";
 
-function CardComponent(props) {
+const CartComponent = (props) => {
+
+  const renderCartItems = (cart = []) => {
+    return cart.map(item => {
+      return (
+        <CartItemComponent
+          key={item.id}
+          item={item}
+          deleteWithCart={props.deleteWithCart}
+        />
+      )
+    })
+  }
+
+  useEffect(() => {})
 
   return(
-    <Card>
-      {props.src && <ImageComponent
-        width={props.width}
-        height={props.height}
-        alt={props.alt}
-        src={props.src}
-      />}
-      <CardBody>
-        <CardTitle tag="h5">{!!props.name && props.name}</CardTitle>
-        <CardText>{!!props.description && props.description}</CardText>
-        <Button onClick={props.onClick}>Click</Button>
-      </CardBody>
-    </Card>
+    !props.cart.length ?
+      <Container>
+      <h1>Empty cart</h1>
+      </Container>
+      :
+    <Container>
+      <Table>
+        <thead>
+        <tr>
+          <th>pic</th>
+          <th>name</th>
+          <th>price</th>
+          <th>count</th>
+          <th>total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {!!props.cart && renderCartItems(props.cart)}
+        </tbody>
+      </Table>
+    </Container>
   )
 }
 
-export default withRouter(CardComponent);
+export default withRouter(CartComponent);
