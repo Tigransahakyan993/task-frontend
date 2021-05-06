@@ -4,7 +4,7 @@ import { FormGroup, Label, Input, FormFeedback } from 'reactstrap';
 export const InputFiled = (props) => {
 
     return ( props.type === 'select' ?
-      <FormGroup>
+      <FormGroup className={props.className}>
         <Label>{props.label}
           <Input type='select'
                  name='Select'
@@ -15,7 +15,7 @@ export const InputFiled = (props) => {
         </Label>
       </FormGroup>
     :
-      <FormGroup>
+      <FormGroup className={props.className}>
         <Label style={{'width': '350px'}}>{props.label}
           <Input type={props.type}
                  className="form-control"
