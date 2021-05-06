@@ -9,4 +9,8 @@ export const userService = {
   getUser: async (id) => {
     return await baseService(`users/:${id}`)
   },
+
+  getCurrentUser: async () => {
+    return await baseService('users/getCurrentUser')
+  }
 }

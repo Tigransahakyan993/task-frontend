@@ -1,5 +1,5 @@
 import ProductItemComponent from "../components/Products/ProductItemComponent/ProductItemComponent";
-import {addToCart, fetchProductData} from "../reducer/products";
+import {addToCart, fetchProductData, reset} from "../reducer/products";
 import { bindActionCreators } from "redux";
 import {connect} from "react-redux";
 
@@ -13,7 +13,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   addToCart,
-  fetchProductData
+  fetchProductData,
+  reset
 }, dispatch)
 
 export default connect(
