@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
+import {withRouter} from "react-router-dom";
 import { Container } from "reactstrap";
 import { Table } from 'reactstrap';
 import CartItemComponent from './CartItemComponent';
-import {withRouter} from "react-router-dom";
 
 const CartComponent = (props) => {
 
