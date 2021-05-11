@@ -5,7 +5,7 @@ import {
   Container, Col, Button, Row
 } from 'reactstrap';
 import { toast } from 'react-toastify';
-import CONSTANTS from '../../../config/CONSTANTS'
+import {auth} from '../../../config/CONSTANTS'
 import RegistrationConfirmPage from "../../UiComponents/RegistrationComfirmPage";
 import Loader from "../../UiComponents/Loader";
 
@@ -22,7 +22,7 @@ function RegistrationComponent(props) {
   const [requiredFiled, setRequiredFiled] = useState({})
 
   useEffect(() => {
-    if (props.message === CONSTANTS.REGISTRATION_SUCCESS) {
+    if (props.message === auth.REGISTRATION_SUCCESS) {
       toast('You are registered on this page, please sign in')
       setIsRegistered(true)
     }

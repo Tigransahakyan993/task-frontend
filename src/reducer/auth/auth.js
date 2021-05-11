@@ -1,16 +1,17 @@
 import authService from '../../service/authService/auth'
-import CONSTANTS from '../../config/CONSTANTS'
+import {auth} from '../../config/CONSTANTS'
 
 const initialState  = {
   user: {},
   loading: false,
   trailLoginLoading: false,
   token: '',
+  login: false,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case CONSTANTS.FETCH_CURRENT_USER:
+    case auth.FETCH_CURRENT_USER:
     case 'REGISTER_USER_ACTION':
     case 'LOGIN_ACTION':
     case 'LOGOUT_ACTION':
@@ -37,6 +38,7 @@ export default (state = initialState, action) => {
         return {
         ...state,
         loading: false,
+        login: true,
         token: action.payload.token,
         user: action.payload.user,
         }
@@ -50,6 +52,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        login: true,
         ...action.payload.data,
         }
       case 'REGISTER_USER_SUCCESS':
@@ -69,15 +72,15 @@ export default (state = initialState, action) => {
 
 export function login(loginInfo) {
   return dispatch => {
-    dispatch({type: CONSTANTS.LOGIN_ACTION})
+    dispatch({type: auth.LOGIN_ACTION})
     authService.login(loginInfo)
         .then(response => {
           const {token, user} = response;
           if (token) {
             window.localStorage.setItem('token', token);
-            dispatch({type: CONSTANTS.LOGIN_SUCCESS, payload: {token, user}})
+            dispatch({type: auth.LOGIN_SUCCESS, payload: {token, user}})
           } else {
-            dispatch({type: CONSTANTS.LOGIN_FAILURE, payload: {message: CONSTANTS.LOGIN_FAILURE}})
+            dispatch({type: auth.LOGIN_FAILURE, payload: {message: auth.LOGIN_FAILURE}})
           }
         })
   }
@@ -97,7 +100,7 @@ export function register(registerInfo) {
     try {
       authService.register(registerInfo)
           .then(response => {
-            dispatch({type: 'REGISTER_USER_SUCCESS', payload: {message: CONSTANTS.REGISTRATION_SUCCESS}})
+            dispatch({type: 'REGISTER_USER_SUCCESS', payload: {message: auth.REGISTRATION_SUCCESS}})
           })
     } catch (e) {
       dispatch({type: 'REGISTER_USER_FAILURE', payload: {message: e.message}})

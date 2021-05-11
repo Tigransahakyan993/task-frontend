@@ -1,8 +1,7 @@
 import React, {useEffect} from 'react';
-import { Container } from "reactstrap";
-import { Table } from 'reactstrap';
-import CartItemComponent from './CartItemComponent';
 import {withRouter} from "react-router-dom";
+import { Container, Col, Table, Button } from 'reactstrap';
+import CartItemComponent from './CartItemComponent';
 
 const CartComponent = (props) => {
 
@@ -18,7 +17,23 @@ const CartComponent = (props) => {
     })
   }
 
-  useEffect(() => {})
+  const AddOrder = () => {
+    const {cart} = props;
+    const order = {
+      restaurantId: cart[0].restaurantId,
+    };
+
+    order.orderItems = cart.reduce((prev, next) => {
+      const item = {
+        id: next.id,
+        count: next.count,
+      };
+      prev.push(item);
+      return prev;
+    }, []);
+
+    props.createOrder(order);
+  }
 
   return(
     !props.cart.length ?
@@ -41,6 +56,11 @@ const CartComponent = (props) => {
         {!!props.cart && renderCartItems(props.cart)}
         </tbody>
       </Table>
+      <Col>
+        <div className='d-flex flex-row-reverse'>
+          <Button onClick={AddOrder} color='success'>Add Order</Button>
+        </div>
+      </Col>
     </Container>
   )
 }

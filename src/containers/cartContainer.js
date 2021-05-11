@@ -1,5 +1,5 @@
 import CartComponent from "../components/CartComponent/CartComponent";
-import {addToCart, deleteWithCart} from "../reducer/products";
+import {addToCart, deleteWithCart, createOrder} from "../reducer/products";
 import { bindActionCreators } from "redux";
 import {connect} from "react-redux";
 
@@ -12,6 +12,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   addToCart,
+  createOrder,
   deleteWithCart,
 }, dispatch)
 

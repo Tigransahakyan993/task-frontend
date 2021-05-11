@@ -15,6 +15,7 @@ import CartComponent from "./containers/cartContainer";
 import RestaurantsComponent from "./containers/restaurantContainer";
 import RestaurantComponent from "./components/Restaurant/RestaurantComponent/RestaurantComponent";
 import ProductItemComponent from "./containers/productItemContainer";
+import OrdersComponent from "./containers/ordersContainer";
 import RegistrationConfirmPage from "./components/UiComponents/RegistrationComfirmPage";
 import './setup';
 
@@ -30,6 +31,7 @@ function App() {
         <Route path='/products/:id' component={ProductItemComponent}/>
         <Route path='/restaurants/:id' component={RestaurantComponent}/>
         <Route path='/cart' component={CartComponent}/>
+        <Route path='/orders' component={OrdersComponent}/>
         <Route path='/registration-success' component={RegistrationConfirmPage}/>
       </Switch>
       <Footer/>
