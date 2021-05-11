@@ -6,9 +6,11 @@ import {
 } from 'reactstrap';
 import { toast } from 'react-toastify';
 import CONSTANTS from '../../../config/CONSTANTS'
-
+import RegistrationConfirmPage from "../../UiComponents/RegistrationComfirmPage";
+import Loader from "../../UiComponents/Loader";
 
 function RegistrationComponent(props) {
+  const [isRegistered, setIsRegistered] = useState(false);
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
@@ -22,18 +24,16 @@ function RegistrationComponent(props) {
   useEffect(() => {
     if (props.message === CONSTANTS.REGISTRATION_SUCCESS) {
       toast('You are registered on this page, please sign in')
-      props.history.push('/login');
+      setIsRegistered(true)
     }
-  })
+  }, [props.message])
 
   const onFiledValueChange = (name, value) => {
-    console.log('name',name);
-    console.log('value',value);
     setLoginInfo(prevState => { return {...prevState, [name]: value}})
   }
 
   const handleSubmit = () => {
-    const {first_name, last_name, email, password, confirmPassword, role} = loginInfo;
+    const {first_name, last_name, email, password, confirmPassword} = loginInfo;
     let isRequired = false;
     const errors = {};
 
@@ -83,71 +83,84 @@ function RegistrationComponent(props) {
   }
 
   return (
-    <Container className='d-flex mt-3 min-vh-100 bg-light'>
-      {renderFormHeader()}
-      <Row className='d-flex mt-3 align-items-center justify-content-center min-vh-100 bg-light'>
-        <form>
-          <Col className='mb-3'>
-            <InputFiled
-              type={'text'}
-              label={'first_name'}
-              placeholder={'John'}
-              onChange={(e) => {onFiledValueChange('first_name', e.target.value)}}
-              required={requiredFiled.first_name}
-            />
-          </Col>
-          <Col className='mb-3'>
-            <InputFiled
-              type={'last_name'}
-              label={'last_name'}
-              placeholder={'Doe'}
-              onChange={(e) => {onFiledValueChange('last_name', e.target.value)}}
-              required={requiredFiled.last_name}
-            />
-          </Col>
-          <Col className='mb-3'>
-            <InputFiled
-              type={'email'}
-              label={'email'}
-              placeholder={'user@email.com'}
-              onChange={(e) => {onFiledValueChange('email', e.target.value)}}
-              required={requiredFiled.email}
-            />
-          </Col>
-          <Col className='mb-3'>
-            <InputFiled
-              type={'password'}
-              label={'password'}
-              placeholder={'*****'}
-              onChange={(e) => {onFiledValueChange('password', e.target.value)}}
-              required={requiredFiled.password}
-            />
-          </Col>
-          <Col className='mb-3'>
-            <InputFiled
-              type={'password'}
-              label={'confirm password'}
-              placeholder={'*****'}
-              onChange={(e) => {onFiledValueChange('confirmPassword', e.target.value)}}
-              required={requiredFiled.confirmPassword}
-            />
-          </Col>
-          <Col className='mb-3'>
-            <InputFiled
-              type={'select'}
-              label={'role'}
-              options={['buyer', 'owner']}
-              onChange={(e) => {onFiledValueChange('role', e.target.value)}}
-              required={requiredFiled.role}
-            />
-          </Col>
-          <Col className='mt-1'>
-            <Button onClick={handleSubmit}>Submit</Button>
-          </Col>
-        </form>
-      </Row>
-    </Container>
-  )
+      !!props.loading ?
+          <Container>
+              <Loader />
+          </Container>
+          :
+      <>
+        {
+          !!isRegistered ?
+              <RegistrationConfirmPage />
+              :
+              <Container className='d-flex mt-3 min-vh-100 bg-light'>
+                {renderFormHeader()}
+
+                <Row className='d-flex mt-3 align-items-center justify-content-center min-vh-100 bg-light'>
+                  <form>
+                    <Col className='mb-3'>
+                      <InputFiled
+                          type={'text'}
+                          label={'first_name'}
+                          placeholder={'John'}
+                          onChange={(e) => {onFiledValueChange('first_name', e.target.value)}}
+                          required={requiredFiled.first_name}
+                      />
+                    </Col>
+                    <Col className='mb-3'>
+                      <InputFiled
+                          type={'last_name'}
+                          label={'last_name'}
+                          placeholder={'Doe'}
+                          onChange={(e) => {onFiledValueChange('last_name', e.target.value)}}
+                          required={requiredFiled.last_name}
+                      />
+                    </Col>
+                    <Col className='mb-3'>
+                      <InputFiled
+                          type={'email'}
+                          label={'email'}
+                          placeholder={'user@email.com'}
+                          onChange={(e) => {onFiledValueChange('email', e.target.value)}}
+                          required={requiredFiled.email}
+                      />
+                    </Col>
+                    <Col className='mb-3'>
+                      <InputFiled
+                          type={'password'}
+                          label={'password'}
+                          placeholder={'*****'}
+                          onChange={(e) => {onFiledValueChange('password', e.target.value)}}
+                          required={requiredFiled.password}
+                      />
+                    </Col>
+                    <Col className='mb-3'>
+                      <InputFiled
+                          type={'password'}
+                          label={'confirm password'}
+                          placeholder={'*****'}
+                          onChange={(e) => {onFiledValueChange('confirmPassword', e.target.value)}}
+                          required={requiredFiled.confirmPassword}
+                      />
+                    </Col>
+                    <Col className='mb-3'>
+                      <InputFiled
+                          type={'select'}
+                          label={'role'}
+                          options={['buyer', 'owner']}
+                          onChange={(e) => {onFiledValueChange('role', e.target.value)}}
+                          required={requiredFiled.role}
+                      />
+                    </Col>
+                    <Col className='mt-1'>
+                      <Button onClick={handleSubmit}>Submit</Button>
+                    </Col>
+                  </form>
+                </Row>
+              </Container>
+        }
+        </>
+    )
 }
 
 export default withRouter(RegistrationComponent);

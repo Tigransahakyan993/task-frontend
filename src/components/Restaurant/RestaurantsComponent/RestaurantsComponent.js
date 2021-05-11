@@ -25,7 +25,7 @@ function RestaurantsComponent(props) {
      <Loader />
       :
     <Container>
-      {props.restaurants && props.restaurants.map((restaurant) => {
+      {!!props.restaurants && props.restaurants.map((restaurant) => {
         return (
             <RestaurantCarouselComponent
               key={restaurant.id}

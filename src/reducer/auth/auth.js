@@ -6,59 +6,62 @@ const initialState  = {
   loading: false,
   trailLoginLoading: false,
   token: '',
-
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'FETCH_CURRENT_USER':
+    case CONSTANTS.FETCH_CURRENT_USER:
+    case 'REGISTER_USER_ACTION':
     case 'LOGIN_ACTION':
     case 'LOGOUT_ACTION':
       return {
         ...state,
         loading: true,
-      }
-      case 'FETCH_CURRENT_USER_SUCCESS':
-      return {
-        ...state,
-        user: action.payload.user,
-        loading: false,
-      }
+        }
       case 'FETCH_CURRENT_USER_FAILURE':
+      case 'REGISTER_USER_FAILURE':
+      case 'TRAIL_LOGIN_FAILURE':
+      case 'LOGIN_FAILURE':
       return {
         ...state,
         loading: false,
-      }
+        ...action.payload
+        }
+      case 'FETCH_CURRENT_USER_SUCCESS':
+        return {
+          ...state,
+          user: action.payload.user,
+          loading: false,
+        }
       case 'LOGIN_SUCCESS':
         return {
         ...state,
         loading: false,
         token: action.payload.token,
         user: action.payload.user,
-      }
+        }
       case 'LOGOUT_SUCCESS':
         return {
         ...state,
         ...action.payload,
         loading: false,
-      }
+        }
       case 'TRAIL_LOGIN_SUCCESS':
       return {
         ...state,
         loading: false,
         ...action.payload.data,
-      }
+        }
       case 'REGISTER_USER_SUCCESS':
         return {
           ...state,
           loading: false,
-          user: action.payload.data,
           message: action.payload.message
         }
       case 'RESET':
         return {
           ...initialState
-      }
+        }
 
     default: return state;
   }
@@ -66,19 +69,17 @@ export default (state = initialState, action) => {
 
 export function login(loginInfo) {
   return dispatch => {
-    dispatch({type: 'LOGIN_ACTION'})
+    dispatch({type: CONSTANTS.LOGIN_ACTION})
     authService.login(loginInfo)
-      .then(response => {
-        debugger
-        const {token, user} = response;
-        if (token) {
-          window.localStorage.setItem('token', token);
-          dispatch({type: 'LOGIN_SUCCESS', payload: {token, user}})
-        } else {
-          window.localStorage.setItem('token', '');
-          dispatch({type: 'LOGIN_FAILURE', payload: {message: response.message}})
-        }
-      })
+        .then(response => {
+          const {token, user} = response;
+          if (token) {
+            window.localStorage.setItem('token', token);
+            dispatch({type: CONSTANTS.LOGIN_SUCCESS, payload: {token, user}})
+          } else {
+            dispatch({type: CONSTANTS.LOGIN_FAILURE, payload: {message: CONSTANTS.LOGIN_FAILURE}})
+          }
+        })
   }
 }
 
@@ -92,10 +93,15 @@ export function logout() {
 
 export function register(registerInfo) {
   return dispatch => {
-    authService.register(registerInfo)
-      .then(token => {
-        dispatch({type: 'REGISTER_USER_SUCCESS', payload: {token, message: CONSTANTS.REGISTRATION_SUCCESS}})
-      })
+    dispatch({type: 'REGISTER_USER_ACTION'})
+    try {
+      authService.register(registerInfo)
+          .then(response => {
+            dispatch({type: 'REGISTER_USER_SUCCESS', payload: {message: CONSTANTS.REGISTRATION_SUCCESS}})
+          })
+    } catch (e) {
+      dispatch({type: 'REGISTER_USER_FAILURE', payload: {message: e.message}})
+    }
   }
 }
 
