@@ -26,6 +26,11 @@
     color: #6c757d;
 }
 
+.restaurant-hearer {
+    font-family: ui-sans-serif;
+    color: #52585d;
+}
+
 .footer {
     height: 200px;
     display: flex;

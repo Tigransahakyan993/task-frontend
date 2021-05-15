@@ -5,10 +5,6 @@ import {withRouter} from "react-router-dom";
 
 const ProductComponent = (props) => {
 
-  const addToCart = () => {
-    props.addToCart(props.product)
-  }
-
     return (
     <Col className='product-item'>
       <Row className='pointer'>
@@ -22,11 +18,6 @@ const ProductComponent = (props) => {
           <div>
             <h5>{props.product.price}</h5>
           </div>
-        </div>
-      </Row>
-      <Row>
-        <div className='d-flex justify-content-center'>
-          <Button color='success' onClick={addToCart}>SHOPPING CART</Button>
         </div>
       </Row>
     </Col>

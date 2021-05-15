@@ -4,7 +4,7 @@ import { Container,Form } from 'reactstrap';
 import { InputFiled } from "../../UiComponents";
 import Loader from "../../UiComponents/Loader";
 import { toast } from "react-toastify";
-import CONSTANTS from "../../../config/CONSTANTS";
+import {auth} from "../../../config/CONSTANTS";
 
 function LoginComponent(props) {
 
@@ -18,7 +18,7 @@ function LoginComponent(props) {
   }, [])
 
   useEffect(() => {
-    props.message === CONSTANTS.LOGIN_FAILURE && toast.error('Wrong email or password')
+    props.message === auth.LOGIN_FAILURE && toast.error('Wrong email or password')
   }, [props.message])
 
   const onFiledValueChange = (name, value) => {

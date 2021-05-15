@@ -5,7 +5,7 @@ import {bindActionCreators} from "redux";
 const mapStateToProps = state => {
   return {
     user: state.auth.user,
-    token: state.auth.token,
+    login: state.auth.login,
     cart: [...state.products.cart],
   }
 }

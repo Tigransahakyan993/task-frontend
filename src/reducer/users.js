@@ -1,5 +1,5 @@
 import {userService} from '../service/api/users'
-import CONSTANTS from '../config/CONSTANTS'
+import {users} from '../config/CONSTANTS'
 
 const initialState  = {
   user: {},
@@ -10,8 +10,8 @@ const initialState  = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case CONSTANTS.FETCH_USER:
-    case 'FETCH_ALL_USERS':
+    case users.FETCH_USER:
+    case users.FETCH_ALL_USERS:
       return {
         ...state
       }
@@ -50,6 +50,6 @@ export function fetchUser(id = 0) {
 
 export function reset() {
   return dispatch => {
-    dispatch({type: CONSTANTS.RESET})
+    dispatch({type: users.RESET})
   }
 }

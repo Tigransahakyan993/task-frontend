@@ -3,7 +3,7 @@ import baseService from "./base";
 export const restaurantService = {
 
   getAllRestaurants:  (params) => {
-    return baseService('restaurants', params)
+    return baseService('restaurants','GET',params)
   },
 
   getRestaurantData: async (id) => {
