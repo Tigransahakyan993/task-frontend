@@ -2,19 +2,19 @@ import baseService from "./base";
 
 export const productService = {
 
-  getAllProducts:  (params) => {
+  getAllProducts: (params) => {
     return baseService('products', 'GET', params)
   },
 
-  getProductData: async (id) => {
-    return await baseService(`products/${id}`)
+  getProductData: (id) => {
+    return baseService(`products/${id}`)
   },
 
-  createOrder: async (order) => {
-    return await baseService(`orders`, 'POST', '', order)
+  createOrder: (order) => {
+    return baseService(`orders`, 'POST', '', order)
   },
 
-  getAllOrders: async (params) => {
-    return await baseService(`orders`, 'GET', params)
+  getAllOrders: (params) => {
+    return baseService(`orders`, 'GET', params)
   },
 }

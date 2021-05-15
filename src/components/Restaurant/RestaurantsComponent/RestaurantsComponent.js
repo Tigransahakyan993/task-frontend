@@ -13,9 +13,6 @@ function RestaurantsComponent(props) {
     limit: 10
   };
 
-  const [toggle, setToggle] = useState(false);
-  const [productId, setProductId] = useState(null);
-
   useEffect(() => {
     props.fetchAllRestaurants(params)
   }, [])

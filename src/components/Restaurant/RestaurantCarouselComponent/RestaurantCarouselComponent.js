@@ -30,10 +30,12 @@ const RestaurantCarouselComponent = (props) => {
   return (
     <Container>
       {renderRestaurantHeader()}
-      <Carousel responsive={styles.CarouselCustomStyles}>
+      <Carousel responsive={styles.CarouselCustomStyles}
+                itemClass="carousel-item-padding-5-px"
+      >
         {
           !!props.restaurant.products && props.restaurant.products.map(product => {
-            return <>
+            return <div className='p-2'>
               <ProductComponent
                   key={product.id}
                   product={product}
@@ -43,7 +45,7 @@ const RestaurantCarouselComponent = (props) => {
                   <Button color='success' disabled={!!props.cart[0] && props.cart[0].restaurantId !== product.restaurantId} onClick={() => addToCart(product)}>SHOPPING CART</Button>
                 </div>
               </Row>
-            </>
+            </div>
           })
         }
       </Carousel>

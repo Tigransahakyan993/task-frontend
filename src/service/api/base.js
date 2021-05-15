@@ -4,10 +4,13 @@ async function baseService(pathname, method = 'GET', params = {}, body = undefin
   url.pathname = pathname;
 
   for (let [key, value] of Object.entries(params)) {
+    if (!value.toString()) {
+        continue;
+    }
     url.searchParams.set(key, value.toString())
+      console.log(params)
+      console.log(key, value.toString())
   }
-
-  console.log(url.toString());
   const data = await fetch(url.toString(),{
    method: method,
    mode: 'cors',
@@ -20,7 +23,11 @@ async function baseService(pathname, method = 'GET', params = {}, body = undefin
    },
    body: JSON.stringify(body),
  });
-  return data.json()
+    if (data.status >= 400) {
+        const errorData = await data.json();
+        throw new Error(errorData.data.message);
+    }
+    return data.json()
 }
 
 export default baseService;

@@ -8,7 +8,8 @@ import {auth} from "../../../config/CONSTANTS";
 
 function LoginComponent(props) {
 
-  const [loginInfo, setLoginInfo] = useState({email: '', password: ''});
+                                                    // underline for right Request
+  const [loginInfo, setLoginInfo] = useState({email: '_', password: '_'});
 
   useEffect(() => {
     const token = window.localStorage.getItem('token');
@@ -20,6 +21,10 @@ function LoginComponent(props) {
   useEffect(() => {
     props.message === auth.LOGIN_FAILURE && toast.error('Wrong email or password')
   }, [props.message])
+
+  useEffect(() => {
+    !!props.login && props.history.push('/')
+  }, [props.login])
 
   const onFiledValueChange = (name, value) => {
     setLoginInfo((prevState) => {

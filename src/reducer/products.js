@@ -1,6 +1,7 @@
-import {productService} from '../service/api/products'
-import {getCartItemIndex} from '../halpers'
-import {products} from '../config/CONSTANTS'
+import {productService} from '../service/api/products';
+import {getCartItemIndex} from '../halpers';
+import {products} from '../config/CONSTANTS';
+import {toast} from "react-toastify";
 
 const initialState  = {
   products: [],
@@ -67,6 +68,13 @@ export default (state = initialState, action) => {
         cart: [],
         orderData: action.payload.order
       }
+    case products.CREATE_ORDER_FAILURE:
+      return {
+        ...state,
+        orderLoading: false,
+        cart: [],
+        message: action.payload.message
+      }
     case 'RESET':
       return {
         ...state,
@@ -84,8 +92,8 @@ export function fetchProductData(id) {
   return dispatch => {
     dispatch({type: products.FETCH_PRODUCT});
     productService.getProductData(id)
-      .then(data => {
-        return dispatch({type: products.FETCH_PRODUCT_SUCCESS, payload: { data }})
+      .then(response => {
+        return dispatch({type: products.FETCH_PRODUCT_SUCCESS, payload: { data: response.data }})
       })
   }
 }
@@ -95,7 +103,7 @@ export function fetchAllProducts(params) {
     dispatch({type: products.FETCH_ALL_PRODUCTS});
     return productService.getAllProducts(params)
       .then(response => {
-        dispatch({ type: products.FETCH_ALL_PRODUCTS_SUCCESS, payload: {products: response} })
+        dispatch({ type: products.FETCH_ALL_PRODUCTS_SUCCESS, payload: {products: response.data} })
       })
   }
 }
@@ -133,9 +141,11 @@ export function createOrder(order) {
     dispatch({type: products.CREATE_ORDER})
     return productService.createOrder(order)
         .then(response => {
-          dispatch({type: products.CREATE_ORDER_SUCCESS, payload: {order: response.order}})
+          toast.success('Order created successful');
+          dispatch({type: products.CREATE_ORDER_SUCCESS, payload: {order: response.data.order}})
         })
         .catch(err => {
+          toast.error(err.message);
           dispatch({type: products.CREATE_ORDER_FAILURE, payload: {message: err.message}})
         })
   }
@@ -146,10 +156,10 @@ export function fetchAllOrders(params) {
     dispatch({type: products.FETCH_ALL_ORDERS})
     return productService.getAllOrders(params)
         .then(response => {
-          console.log('RESP',response);
-          dispatch({type: products.FETCH_ALL_ORDERS_SUCCESS, payload: {orders: response.orders}})
+          dispatch({type: products.FETCH_ALL_ORDERS_SUCCESS, payload: {orders: response.data.orders}})
         })
         .catch(err => {
+          toast.error(err.message);
           dispatch({type: products.FETCH_ALL_ORDERS_FAILURE, payload: {message: err.message}})
         })
   }

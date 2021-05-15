@@ -1,6 +1,6 @@
 import React from 'react';
 import ImageComponent from "../../ImageComponent/ImageComponent";
-import {Col, Row, Button} from 'reactstrap';
+import {Col, Row} from 'reactstrap';
 import {withRouter} from "react-router-dom";
 
 const ProductComponent = (props) => {
@@ -8,7 +8,7 @@ const ProductComponent = (props) => {
     return (
     <Col className='product-item'>
       <Row className='pointer'>
-        <div>
+        <div onClick={() => {props.history.push(`products/${props.product.id}`)}}>
           <ImageComponent height='230px' width='100%' src={!!props.product.image ? props.product.image : 'https://i.pinimg.com/originals/a7/b9/5b/a7b95bbd3d9c81f59361d120baf84b12.jpg'}/>
         </div>
         <div className='product-info'>
