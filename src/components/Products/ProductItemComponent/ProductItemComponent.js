@@ -6,15 +6,12 @@ import Loader from '../../UiComponents/Loader'
 import ValueChangeComponent from '../../ValueChangeComponent/ValueChangeComponent'
 
 const ProductItemComponent = (props) => {
-  const {productId = '', productData = {}, loading} = props;
-
+  const {loading, productData} = props;
   const [count, setCount] = useState(1);
+  const productId = +props.match.params.id
 
   useEffect(() => {
     props.fetchProductData(productId);
-    return () => {
-      props.reset();
-    }
   }, [productId])
 
   const addToCart = () => {

@@ -12,10 +12,11 @@ import LoginComponent from './containers/logInContainer';
 import RegistrationComponent from './containers/registrationContainer';
 import Footer from "./components/FooterComponent/FooterComponent";
 import CartComponent from "./containers/cartContainer";
-import RestaurantsComponent from "./containers/restaurantContainer";
-import RestaurantComponent from "./components/Restaurant/RestaurantComponent/RestaurantComponent";
+import RestaurantsComponent from "./containers/RestaurantsContainer";
+import RestaurantComponent from "./containers/RestaurantContainer";
 import ProductItemComponent from "./containers/productItemContainer";
 import OrdersComponent from "./containers/ordersContainer";
+// import OrderComponent from "./containers/orderContainer";
 import RegistrationConfirmPage from "./components/UiComponents/RegistrationComfirmPage";
 import './setup';
 
@@ -27,11 +28,12 @@ function App() {
         <Route exact path='/' component={HomeComponent}/>
         <Route path='/login' component={LoginComponent}/>
         <Route path='/registration' component={RegistrationComponent}/>
+        <Route path='/restaurants/:id' component={RestaurantComponent}/>
         <Route path='/restaurants' component={RestaurantsComponent}/>
         <Route path='/products/:id' component={ProductItemComponent}/>
-        <Route path='/restaurants/:id' component={RestaurantComponent}/>
         <Route path='/cart' component={CartComponent}/>
         <Route path='/orders' component={OrdersComponent}/>
+        {/*<Route path='/orders/:id' component={OrderComponent}/>*/}
         <Route path='/registration-success' component={RegistrationConfirmPage}/>
       </Switch>
       <Footer/>

@@ -1,5 +1,5 @@
-import authService from '../../service/authService/auth'
-import {auth} from '../../config/CONSTANTS'
+import authService from '../../service/authService/auth';
+import {auth} from '../../config/CONSTANTS';
 
 const initialState  = {
   user: {},
@@ -46,6 +46,7 @@ export default (state = initialState, action) => {
         return {
         ...state,
         ...action.payload,
+        login: false,
         loading: false,
         }
       case 'TRAIL_LOGIN_SUCCESS':
@@ -63,6 +64,7 @@ export default (state = initialState, action) => {
         }
       case 'RESET':
         return {
+          ...state,
           ...initialState
         }
 
@@ -75,10 +77,9 @@ export function login(loginInfo) {
     dispatch({type: auth.LOGIN_ACTION})
     authService.login(loginInfo)
         .then(response => {
-          const {token, user} = response;
-          if (token) {
-            window.localStorage.setItem('token', token);
-            dispatch({type: auth.LOGIN_SUCCESS, payload: {token, user}})
+          if (response.data.token) {
+            window.localStorage.setItem('token', response.data.token);
+            dispatch({type: auth.LOGIN_SUCCESS, payload: {token: response.data.token, user: response.data.user}})
           } else {
             dispatch({type: auth.LOGIN_FAILURE, payload: {message: auth.LOGIN_FAILURE}})
           }
@@ -87,10 +88,14 @@ export function login(loginInfo) {
 }
 
 export function logout() {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const state = getState();
+    console.log(state);
+    state.products.cart = [];
     dispatch({type: 'LOGOUT_ACTION'});
     window.localStorage.setItem('token', '');
-    dispatch({type: 'LOGOUT_SUCCESS', payload: {token: ''}})
+    dispatch({type: 'RESET'});
+    dispatch({type: 'LOGOUT_SUCCESS', payload: {token: ''}});
   }
 }
 
@@ -113,12 +118,12 @@ export function getCurrentUser() {
     dispatch({type: 'FETCH_CURRENT_USER'});
      authService.getCurrentUser()
       .then(response => {
-        if (!response.user) {
+        if (!response.data.user) {
           window.localStorage.setItem('token', '');
           dispatch({type: 'FETCH_CURRENT_USER_FAILURE'});
           return
         }
-        dispatch({type: 'FETCH_CURRENT_USER_SUCCESS', payload: {user: response.user}})
+        dispatch({type: 'FETCH_CURRENT_USER_SUCCESS', payload: {user: response.data.user}})
       })
   }
 }
@@ -133,6 +138,12 @@ export function trailLogin() {
         dispatch({type: 'LOGIN_SUCCESS', payload: {token}})
         dispatch(getCurrentUser());
       }
+    }
+}
+
+export function reset() {
+    return dispatch => {
+      dispatch({type: 'RESET'})
     }
 }
 

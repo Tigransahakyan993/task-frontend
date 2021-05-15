@@ -6,11 +6,11 @@ export const userService = {
     return baseService('users', params)
   },
 
-  getUser: async (id) => {
-    return await baseService(`users/:${id}`)
+  getUser: (id) => {
+    return baseService(`users/:${id}`)
   },
 
-  getCurrentUser: async () => {
-    return await baseService('users/getCurrentUser')
+  getCurrentUser: () => {
+    return baseService('users/getCurrentUser')
   }
 }

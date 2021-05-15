@@ -1,28 +1,38 @@
 import {restaurantService} from '../service/api/restaurant'
+import {restaurants} from "../config/CONSTANTS";
 
 const initialState  = {
   restaurants: [],
   data: {},
+  searchingList: [],
   loading: true,
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'FETCH_RESTAURANT':
-    case 'FETCH_ALL_RESTAURANTS':
+    case restaurants.FETCH_RESTAURANT:
+    case restaurants.FETCH_ALL_RESTAURANTS:
+    case restaurants.FETCH_SEARCHING_LIST:
       return {
         ...state
       }
-    case 'FETCH_RESTAURANT_SUCCESS':
+    case restaurants.FETCH_RESTAURANT_SUCCESS:
       return {
         ...state,
         data: action.payload.data,
         loading: false
       }
-      case 'FETCH_ALL_RESTAURANTS_SUCCESS':
+      case restaurants.FETCH_ALL_RESTAURANTS_SUCCESS:
       return {
         ...state,
         restaurants: action.payload.restaurants,
+        loading: false
+      }
+      case restaurants.FETCH_SEARCHING_LIST_SUCCESS:
+        console.log('action.payload.searchingList:::::::',action.payload.searchingList);
+        return {
+        ...state,
+        searchingList: action.payload.searchingList,
         loading: false
       }
 
@@ -32,24 +42,34 @@ export default (state = initialState, action) => {
 
 export function fetchRestaurantData(id) {
   return dispatch => {
-    dispatch({type: 'FETCH_RESTAURANT'});
-    restaurantService.getAllRestaurants()
-      .then(data => {
-        for (let i in data) {
-          if (data[+i].id === +id) {
-            return dispatch({type: 'FETCH_RESTAURANT_SUCCESS', payload: {data: data[+i]}})
-          }
-        }
+    dispatch({type: restaurants.FETCH_RESTAURANT});
+    restaurantService.getRestaurantData(id)
+      .then(response => {
+        dispatch({type: restaurants.FETCH_RESTAURANT_SUCCESS, payload: {data: response.data}})
       })
+        .catch(err => {
+          dispatch({type: restaurants.FETCH_RESTAURANT_FAILURE, payload: {message: err.message}})
+        })
   }
 }
 
 export function fetchAllRestaurants(params) {
   return dispatch => {
-    dispatch({type: 'FETCH_ALL_RESTAURANTS'});
+    dispatch({type: restaurants.FETCH_ALL_RESTAURANTS});
     return restaurantService.getAllRestaurants(params)
-      .then(data => {
-        return dispatch({ type: 'FETCH_ALL_RESTAURANTS_SUCCESS', payload: {restaurants: data}})
+      .then(response => {
+        console.log('response:::',response);
+        return dispatch({ type: restaurants.FETCH_ALL_RESTAURANTS_SUCCESS, payload: {restaurants: response.data}})
+      })
+    }
+}
+
+export function fetchSearchingList(params) {
+  return dispatch => {
+    dispatch({type: restaurants.FETCH_SEARCHING_LIST});
+    return restaurantService.getAllRestaurants(params)
+      .then(response => {
+        return dispatch({ type: restaurants.FETCH_SEARCHING_LIST_SUCCESS, payload: {searchingList: response.data}})
       })
     }
 }
