@@ -3,13 +3,10 @@ import { withRouter } from "react-router-dom";
 import { Container,Form } from 'reactstrap';
 import { InputFiled } from "../../UiComponents";
 import Loader from "../../UiComponents/Loader";
-import { toast } from "react-toastify";
-import {auth} from "../../../config/CONSTANTS";
 
 function LoginComponent(props) {
 
-                                                    // underline for right Request
-  const [loginInfo, setLoginInfo] = useState({email: '_', password: '_'});
+  const [loginInfo, setLoginInfo] = useState({email: '', password: ''});
 
   useEffect(() => {
     const token = window.localStorage.getItem('token');
@@ -17,10 +14,6 @@ function LoginComponent(props) {
       props.history.push('/')
     }
   }, [])
-
-  useEffect(() => {
-    props.message === auth.LOGIN_FAILURE && toast.error('Wrong email or password')
-  }, [props.message])
 
   useEffect(() => {
     !!props.login && props.history.push('/')
@@ -49,6 +42,7 @@ function LoginComponent(props) {
       <Form onSubmit={handleSubmit}>
         <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
         <InputFiled
+            value={loginInfo.email}
             type={'email'}
             placeholder={'Email address'}
             onChange={(e) => {onFiledValueChange('email', e.target.value)}}
@@ -56,6 +50,7 @@ function LoginComponent(props) {
             className='pt-2'
         />
         <InputFiled
+            value={loginInfo.password}
             type={'password'}
             placeholder={'Password'}
             onChange={(e) => {onFiledValueChange('password', e.target.value)}}

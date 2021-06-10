@@ -8,8 +8,6 @@ async function baseService(pathname, method = 'GET', params = {}, body = undefin
         continue;
     }
     url.searchParams.set(key, value.toString())
-      console.log(params)
-      console.log(key, value.toString())
   }
   const data = await fetch(url.toString(),{
    method: method,
@@ -23,6 +21,7 @@ async function baseService(pathname, method = 'GET', params = {}, body = undefin
    },
    body: JSON.stringify(body),
  });
+
     if (data.status >= 400) {
         const errorData = await data.json();
         throw new Error(errorData.data.message);

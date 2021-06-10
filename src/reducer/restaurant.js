@@ -29,7 +29,6 @@ export default (state = initialState, action) => {
         loading: false
       }
       case restaurants.FETCH_SEARCHING_LIST_SUCCESS:
-        console.log('action.payload.searchingList:::::::',action.payload.searchingList);
         return {
         ...state,
         searchingList: action.payload.searchingList,
@@ -58,7 +57,6 @@ export function fetchAllRestaurants(params) {
     dispatch({type: restaurants.FETCH_ALL_RESTAURANTS});
     return restaurantService.getAllRestaurants(params)
       .then(response => {
-        console.log('response:::',response);
         return dispatch({ type: restaurants.FETCH_ALL_RESTAURANTS_SUCCESS, payload: {restaurants: response.data}})
       })
     }

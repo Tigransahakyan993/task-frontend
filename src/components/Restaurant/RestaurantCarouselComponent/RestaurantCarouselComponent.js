@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {withRouter} from "react-router-dom";
+import {withRouter, NavLink} from "react-router-dom";
 import {Button, Col, Container, Row} from "reactstrap";
 import Carousel from "react-multi-carousel";
 import {styles} from "../../../config/custom_styles";
 import ProductComponent from "../../../containers/productContainer";
+import {checkUserRole}from '../../../halpers';
+import {userRole} from '../../../config';
+
 
 const RestaurantCarouselComponent = (props) => {
   const [params, setParams] = useState({
@@ -13,6 +16,9 @@ const RestaurantCarouselComponent = (props) => {
 
   useEffect(() => {
     props.fetchAllProducts(params);
+    return () => {
+
+    }
   },[])
 
   const addToCart = (product) => {
@@ -22,7 +28,7 @@ const RestaurantCarouselComponent = (props) => {
   const renderRestaurantHeader = () => {
     return (
       <h1 className='restaurant-hearer'>
-        {props.restaurant.name}
+        <NavLink to={`restaurants/${props.restaurant.id}`}>{props.restaurant.name}</NavLink>
       </h1>
     )
   }
@@ -42,7 +48,10 @@ const RestaurantCarouselComponent = (props) => {
               />
               <Row>
                 <div className='d-flex justify-content-center'>
-                  <Button color='success' disabled={!!props.cart[0] && props.cart[0].restaurantId !== product.restaurantId} onClick={() => addToCart(product)}>SHOPPING CART</Button>
+                  {!!props.user && checkUserRole(props.user, userRole.buyer) &&
+                    <Button color='success'
+                           disabled={!!props.cart[0] && props.cart[0].restaurantId !== product.restaurantId}
+                           onClick={() => addToCart(product)}>SHOPPING CART</Button>}
                 </div>
               </Row>
             </div>

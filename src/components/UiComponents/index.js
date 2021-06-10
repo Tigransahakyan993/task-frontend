@@ -16,13 +16,14 @@ export const InputFiled = (props) => {
       </FormGroup>
     :
       <FormGroup className={props.className}>
-        <Label style={{'width': '350px'}}>{props.label}
+        <Label style={{'width': '350px'}}>
+            {props.isRequired && props.label + '*'}
           <Input type={props.type}
+                 value={props.value}
                  className="form-control"
                  placeholder={props.placeholder}
-                 required=""
                  onChange={props.onChange}
-                 invalid={props.required}
+                 invalid={!!props.required}
           />
           <FormFeedback>{props.required}</FormFeedback>
         </Label>

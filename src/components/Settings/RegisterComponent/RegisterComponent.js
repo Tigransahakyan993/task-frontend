@@ -109,7 +109,7 @@ function RegistrationComponent(props) {
                     </Col>
                     <Col className='mb-3'>
                       <InputFiled
-                          type={'last_name'}
+                          type={'text'}
                           label={'last_name'}
                           placeholder={'Doe'}
                           onChange={(e) => {onFiledValueChange('last_name', e.target.value)}}

@@ -1,20 +1,20 @@
 import ProductItemComponent from "../components/Products/ProductItemComponent/ProductItemComponent";
-import {addToCart, fetchProductData, reset} from "../reducer/products";
+import {addToCart, fetchProductData,} from "../reducer/products";
 import { bindActionCreators } from "redux";
 import {connect} from "react-redux";
 
 const mapStateToProps = state => {
   return {
-    productData: state.products.productData,
+    user: state.auth.user,
+    productData: {...state.products.productData},
     loading: state.products.loading,
-
+    cart: [...state.products.cart]
   }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   addToCart,
   fetchProductData,
-  reset
 }, dispatch)
 
 export default connect(

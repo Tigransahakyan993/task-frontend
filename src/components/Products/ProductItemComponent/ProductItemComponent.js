@@ -4,11 +4,16 @@ import {Col, Row, Container, Button} from 'reactstrap';
 import {withRouter} from "react-router-dom";
 import Loader from '../../UiComponents/Loader'
 import ValueChangeComponent from '../../ValueChangeComponent/ValueChangeComponent'
+import {userRole} from "../../../config";
+import {checkUserRole} from "../../../halpers";
+import Modal from '../../../containers/AddEditProductModal'
 
 const ProductItemComponent = (props) => {
-  const {loading, productData} = props;
+  const {loading, productData, user} = props;
   const [count, setCount] = useState(1);
-  const productId = +props.match.params.id
+  const [isOpen, setIsOpen] = useState(false);
+  const productId = +props.match.params.id;
+
 
   useEffect(() => {
     props.fetchProductData(productId);
@@ -33,11 +38,11 @@ const ProductItemComponent = (props) => {
   return (
     !!loading ?
       <Container>
-        <Loader className=''/>
+        <Loader />
       </Container>
       :
     <Container>
-        <Row>
+        <Row className='pt-5'>
           <Col>
             <ImageComponent height='400px' width='400px' src={!!productData.image ? productData.image : 'https://www.tokyo-city.ru/goods/sushi_sake.jpg'}/>
           </Col>
@@ -54,22 +59,38 @@ const ProductItemComponent = (props) => {
               <Col><h5>Description</h5></Col>
               <Col><h4>{productData.description}</h4></Col>
             </Row>
-            <Row>
+            {user && checkUserRole(user, userRole.owner) && user.restaurantId === productData.restaurantId &&
+              <Row className=''>
+                <Col>
+                  <Button onClick={() => setIsOpen(!isOpen)}>
+                    Edit
+                  </Button>
+                </Col>
+            </Row>}
+            {user && checkUserRole(user, userRole.buyer) &&
+              <Row>
               <Col>
                 <ValueChangeComponent
-                  value={count}
-                  increment={increment}
-                  decrement={decrement}
+                    value={count}
+                    increment={increment}
+                    decrement={decrement}
                 />
               </Col>
               <Col>
-                <Button onClick={addToCart}>
+                <Button onClick={addToCart}
+                        disabled={props.cart[0] && props.cart[0].restaurantId !== productData.restaurantId}
+                >
                   Add to cart
                 </Button>
               </Col>
-            </Row>
+            </Row>}
           </Col>
         </Row>
+      <Modal
+          isOpen={isOpen}
+          toggle={() => {setIsOpen(!isOpen)}}
+          productData={productData}
+      />
     </Container>
   )
 };

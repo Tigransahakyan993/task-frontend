@@ -4,6 +4,15 @@ export const userRole = {
   buyer: 'buyer',
 }
 
+export const orderStatus = {
+  placed: 'placed',
+  canceled: 'canceled',
+  processing: 'processing',
+  inRoute: 'inRoute',
+  delivered: 'delivered',
+  received: 'received',
+}
+
 export default {
   home: {
     path: '/',

@@ -32,7 +32,7 @@
 }
 
 .footer {
-    height: 200px;
+    height: 25vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,16 +62,20 @@ a {
     transform: scale(2, 2);
 }
 
+.updateButton:active {
+    transform: scale(2, 2);
+}
+
 .modal-close-button {
+    border-radius: 50%;
     position: absolute;
-    right: 0;
-    top: 0;
+    right: -7px;
+    top: -7px;
 }
 
 .value-change-container {
     display: flex;
     float: left;
-    /*width: 20vh;*/
 }
 
 .value-change-input {
@@ -109,3 +113,48 @@ a {
     justify-content: center;
     flex-direction: column;
 }
+
+.modal-body {
+    position: absolute;
+    top: 50%;  /* position the top  edge of the element at the middle of the parent */
+    left: 50%; /* position the left edge of the element at the middle of the parent */
+
+    transform: translate(-50%, -50%);
+    height: 55vh;
+    background-color: white;
+}
+
+.pagination {
+    display: inline-flex;
+    padding-left: 0;
+    list-style: none;
+}
+
+.pagination > li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid darkgray;
+    border-radius: 3px;
+    padding: 2px;
+    font-size: large;
+    min-height: 4vh;
+    min-width: 4vh;
+    color: #6c757d;
+}
+
+.previous-page {
+    margin-right: 20px;
+    border-radius: 1px;
+}
+
+.next-page {
+    margin-left: 20px;
+    border-radius: 1px;
+}
+
+.active-page {
+    background-color: #6c757d;
+    color: white !important;
+}
+

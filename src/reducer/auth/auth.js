@@ -1,5 +1,6 @@
 import authService from '../../service/authService/auth';
 import {auth} from '../../config/CONSTANTS';
+import {toast} from "react-toastify";
 
 const initialState  = {
   user: {},
@@ -77,12 +78,16 @@ export function login(loginInfo) {
     dispatch({type: auth.LOGIN_ACTION})
     authService.login(loginInfo)
         .then(response => {
-          if (response.data.token) {
-            window.localStorage.setItem('token', response.data.token);
-            dispatch({type: auth.LOGIN_SUCCESS, payload: {token: response.data.token, user: response.data.user}})
+          if (response.token) {
+            window.localStorage.setItem('token', response.token);
+            dispatch({type: auth.LOGIN_SUCCESS, payload: {token: response.token, user: response.data}})
           } else {
             dispatch({type: auth.LOGIN_FAILURE, payload: {message: auth.LOGIN_FAILURE}})
           }
+        })
+        .catch(err => {
+          toast.error('Wrong email or password')
+          dispatch({type: auth.LOGIN_FAILURE, payload: {message: auth.LOGIN_FAILURE}})
         })
   }
 }
@@ -118,12 +123,12 @@ export function getCurrentUser() {
     dispatch({type: 'FETCH_CURRENT_USER'});
      authService.getCurrentUser()
       .then(response => {
-        if (!response.data.user) {
+        if (!response.data) {
           window.localStorage.setItem('token', '');
           dispatch({type: 'FETCH_CURRENT_USER_FAILURE'});
           return
         }
-        dispatch({type: 'FETCH_CURRENT_USER_SUCCESS', payload: {user: response.data.user}})
+        dispatch({type: 'FETCH_CURRENT_USER_SUCCESS', payload: {user: response.data}})
       })
   }
 }

@@ -6,3 +6,7 @@ export const getCartItemIndex = (item, cart) => {
   }
   return -1;
 }
+
+export const checkUserRole = (user, role) => {
+  return user.role === role;
+}

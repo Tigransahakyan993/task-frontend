@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 
 const mapStateToProps = state => {
   return {
+    user: state.auth.user,
     restaurantData: state.restaurant.data,
     loading: state.restaurant.loading,
     message: state.restaurant.message,
